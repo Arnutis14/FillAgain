@@ -9,7 +9,7 @@ namespace WebApp.Data.Entities
     [DataContract]
     public class User
     {   [DataMember]
-        public string id { get; set; }
+        public string Id { get; set; }
 
         [DataMember]
         public string password { get; set; }

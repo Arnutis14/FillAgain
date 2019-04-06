@@ -22,7 +22,13 @@ namespace WebApp.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             base.OnModelCreating(builder);
+            builder.Entity<User>().HasIndex(u => u.Id).IsUnique();
+            builder.Entity<Cup>().HasIndex(u => u.Id).IsUnique();
+            builder.Entity<Transaction>().HasIndex(u => u.Id).IsUnique();
+            builder.Entity<Shop>().HasIndex(u => u.Id).IsUnique();
+            builder.Entity<Friendship>().HasIndex(u => u.Id).IsUnique();
         }
     }
 }

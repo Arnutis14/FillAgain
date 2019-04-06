@@ -10,7 +10,8 @@ namespace WebApp.Data.Entities
     public class Transaction
     {
         [DataMember]
-        public Cup cupId { get; set; }
+        public string Id { get; set; }
+       
 
         [DataMember]
         public string amount { get; set; }
