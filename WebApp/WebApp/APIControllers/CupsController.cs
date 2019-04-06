@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebApp.Data;
 using WebApp.Data.Entities;
 
@@ -15,6 +16,12 @@ namespace WebApp.APIControllers
     public class CupsController : ControllerBase
     {
         private readonly FillAgainContext _context;
+ 
+        //object only to create array for json
+        public class DuckingCupList
+        {
+            public ICollection<Cup> cuparray {get; set;}
+        }
 
         public CupsController(FillAgainContext context)
         {
@@ -23,10 +30,13 @@ namespace WebApp.APIControllers
 
         // GET: api/Cups
         [HttpGet]
-        public List<Cup> GetCups()
+        public string GetCups()
         {
-            Console.Write(_context.Cups.ToList());
-            return _context.Cups.ToList();
+            ICollection<Cup> cupCol = _context.Cups.ToList();
+            DuckingCupList dcknglist = new DuckingCupList { cuparray = cupCol };
+            string json = JsonConvert.SerializeObject(dcknglist);
+
+            return json;
         }
         
         
