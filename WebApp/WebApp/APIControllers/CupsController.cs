@@ -57,11 +57,18 @@ namespace WebApp.APIControllers
             {
                 return BadRequest(ModelState);
             }
-            
-          
+
+
+            int newLimit = tmplimit - 10;
             if(tmplimit > 10)
             {
                 //call danske bank api
+                if(true)
+                {
+                    cup.limit = newLimit.ToString();
+                    _context.Entry(cup).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
             }
             else
             {
@@ -78,7 +85,7 @@ namespace WebApp.APIControllers
 
 
         // PUT: api/Cups/5
-        [HttpPut("{id}/{money}")]
+        [HttpPut("topup/{id}/{money}")]
         public async Task<IActionResult> PutCup([FromRoute] string id,[FromRoute] string money)
         {
             if (!ModelState.IsValid)
@@ -121,7 +128,43 @@ namespace WebApp.APIControllers
             return NoContent();
         }
 
-       
+
+        [HttpPut("define/{cid}/{uid}")]
+        public async Task<IActionResult> DefineCup([FromRoute] string cid, [FromRoute] string uid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Cup d = _context.Cups.Where(s => s.Id == cid).First();
+
+            if(d.owner != null)
+            {
+                return BadRequest();
+            }
+            d.owner = uid;
+
+            Console.WriteLine(d);
+            
+
+
+            _context.Entry(d).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+            }
+
+            return Ok(d);
+        }
+
+
 
         // POST: api/Cups
         [HttpPost]
