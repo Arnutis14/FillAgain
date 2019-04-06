@@ -23,11 +23,14 @@ namespace WebApp.APIControllers
 
         // GET: api/Cups
         [HttpGet]
-        public IEnumerable<Cup> GetCups()
+        public List<Cup> GetCups()
         {
-            return _context.Cups;
+            Console.Write(_context.Cups.ToList());
+            return _context.Cups.ToList();
         }
-
+        
+        
+        //Gundars checks if cup has money
         // GET: api/Cups/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCup([FromRoute] string id)
@@ -36,34 +39,75 @@ namespace WebApp.APIControllers
             {
                 return BadRequest(ModelState);
             }
-
+   
             var cup = await _context.Cups.FindAsync(id);
-
-            Console.WriteLine(cup);
 
             if (cup == null)
             {
                 return NotFound();
             }
 
+ 
+            int tmplimit;
+            if (cup.limit != null)
+            {
+                tmplimit = Int32.Parse(cup.limit);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+            
+          
+            if(tmplimit > 10)
+            {
+                //call danske bank api
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
+            Console.WriteLine(cup);
+
+          
+
             return Ok(cup);
         }
 
+
+
         // PUT: api/Cups/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCup([FromRoute] string id, [FromBody] Cup cup)
+        [HttpPut("{id}/{money}")]
+        public async Task<IActionResult> PutCup([FromRoute] string id,[FromRoute] string money)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != cup.Id)
-            {
-                return BadRequest();
-            }
+            Cup d = _context.Cups.Where(s => s.Id == id).First();
 
-            _context.Entry(cup).State = EntityState.Modified;
+            int tmpmoney = Int32.Parse(d.limit);
+            int newlimit = tmpmoney + Int32.Parse(money);
+            d.limit = newlimit.ToString();
+
+           // foreach (Cup c in _context.Cups.Where(r => r.Id == cup.Id))
+            //{
+        //     c.limit = newlimit.ToString();
+//            }
+
+            
+
+           
+            Console.WriteLine(d);
+            // var cupas = _context.Cups.Where(s => s.Id == cup.Id).First();
+            //cupas.limit = newlimit.ToString();
+
+
+
+            _context.Entry(d).State= EntityState.Modified;
+            _context.SaveChanges();
 
             try
             {
@@ -71,14 +115,7 @@ namespace WebApp.APIControllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CupExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
             return NoContent();

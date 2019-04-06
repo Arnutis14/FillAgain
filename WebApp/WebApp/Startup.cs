@@ -52,9 +52,11 @@ namespace WebApp
                 app.UseHsts();
             }
 
+            app.UseMiddleware<DeChunkerMiddleware>();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
 
             app.UseMvc(routes =>
             {
