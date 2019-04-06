@@ -13,10 +13,10 @@ namespace WebApp.Data.Entities
         public string Id { get; set; }
 
         [DataMember]
-        public User friend1 { get; set; }
+        public string friend1 { get; set; }
 
         [DataMember]
-        public User friend2 { get; set; }
+        public string friend2 { get; set; }
 
     }
 }

@@ -25,9 +25,9 @@ namespace WebApp.Migrations
 
                     b.Property<bool>("isBlocked");
 
-                    b.Property<int>("limit");
+                    b.Property<string>("limit");
 
-                    b.Property<string>("ownerId");
+                    b.Property<string>("owner");
 
                     b.Property<string>("preferedDrink");
 
@@ -35,8 +35,6 @@ namespace WebApp.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("ownerId");
 
                     b.ToTable("Cups");
                 });
@@ -46,18 +44,14 @@ namespace WebApp.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("friend1Id");
+                    b.Property<string>("friend1");
 
-                    b.Property<string>("friend2Id");
+                    b.Property<string>("friend2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("friend1Id");
-
-                    b.HasIndex("friend2Id");
 
                     b.ToTable("Friendships");
                 });
@@ -113,24 +107,6 @@ namespace WebApp.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebApp.Data.Entities.Cup", b =>
-                {
-                    b.HasOne("WebApp.Data.Entities.User", "owner")
-                        .WithMany()
-                        .HasForeignKey("ownerId");
-                });
-
-            modelBuilder.Entity("WebApp.Data.Entities.Friendship", b =>
-                {
-                    b.HasOne("WebApp.Data.Entities.User", "friend1")
-                        .WithMany()
-                        .HasForeignKey("friend1Id");
-
-                    b.HasOne("WebApp.Data.Entities.User", "friend2")
-                        .WithMany()
-                        .HasForeignKey("friend2Id");
                 });
 #pragma warning restore 612, 618
         }

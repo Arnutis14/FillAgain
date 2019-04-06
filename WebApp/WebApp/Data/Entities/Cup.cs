@@ -13,7 +13,7 @@ namespace WebApp.Data.Entities
         public string Id { get; set; }
 
         [DataMember]
-        public int limit { get; set; }
+        public string limit { get; set; }
 
         [DataMember]
         public Boolean isBlocked { get; set; }
@@ -22,6 +22,6 @@ namespace WebApp.Data.Entities
         public string preferedDrink { get; set; }
 
         [DataMember]
-        public User owner { get; set; }
+        public string owner { get; set; }
     }
 }

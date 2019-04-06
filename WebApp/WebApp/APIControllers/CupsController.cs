@@ -39,6 +39,8 @@ namespace WebApp.APIControllers
 
             var cup = await _context.Cups.FindAsync(id);
 
+            Console.WriteLine(cup);
+
             if (cup == null)
             {
                 return NotFound();
@@ -81,6 +83,8 @@ namespace WebApp.APIControllers
 
             return NoContent();
         }
+
+       
 
         // POST: api/Cups
         [HttpPost]
