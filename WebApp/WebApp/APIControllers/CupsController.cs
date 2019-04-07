@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,21 +15,26 @@ using WebApp.Data.Entities;
 
 namespace WebApp.APIControllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class CupsController : ControllerBase
     {
         private readonly FillAgainContext _context;
+        public HttpClient client;
+        private Helper helper;
+        public HttpResponseMessage responseMessage {get; set;}
  
         //object only to create array for json
         public class DuckingCupList
         {
             public ICollection<Cup> cuparray {get; set;}
         }
-
         public CupsController(FillAgainContext context)
         {
             _context = context;
+       
+            
         }
 
         // GET: api/Cups
@@ -72,8 +81,28 @@ namespace WebApp.APIControllers
             int newLimit = tmplimit - 10;
             if(tmplimit > 10)
             {
+
+
+                var request = (HttpWebRequest)WebRequest.Create("https://api.sandbox.mobilepay.dk/bindings-restapi/api/v1/payments/payout-bankaccount");
+
+                string stringData = "{\"merchantId\" : \"35ed5788-51e3-4fd8-b7a3-020a9f7c8533\",\r\n    \"merchantBinding\" : \"000\",\r\n    \"receiverRegNumber\" : \"3098\",\r\n    \"receiverAccountNumber\" : \"3100460793\",\r\n    \"amount\" : 10 }";
+                var data = Encoding.ASCII.GetBytes(stringData); // or UTF8
+                WebResponse webResponse = request.GetResponse();
+                request.Method = "POST";
+                request.Headers.Add("x-ibm-client-id", "1c0cd3ff-1143-476b-b136-efe9b1f5ecf3");
+                request.Headers.Add("x-ibm-client-secret", "L7yW0eV0eK5yX1nK4rO0lI8sX5aN2tL6aQ0sL7gM1xO6sW8kK1");
+                request.ContentType = "application/json"; //place MIME type here
+                request.ContentLength = data.Length;
+                Console.WriteLine(request);
+                
+                var newStream = request.GetRequestStream();
+                newStream.Write(data, 0, data.Length);
+                newStream.Close();
+                Console.WriteLine(newStream);
+
+
                 //call danske bank api
-                if(true)
+                if (webResponse.Equals(204))
                 {
                     cup.limit = newLimit.ToString();
                     _context.Entry(cup).State = EntityState.Modified;
