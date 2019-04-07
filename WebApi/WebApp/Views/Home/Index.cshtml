@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+<div class="container text-center myContainer">
+    <div class="col-md-12">
+        <div id="name">
+            <h1>Drink :</h1>
+            <h1>User :</h1>
+            <h1>Limit :</h1>
+        </div>
+    </div>
+</div>
+<style>
+
+    body {
+        font-family: 'Quicksand', sans-serif;
+        background-color: #DFDCE3;
+        padding-top: 150px;
+    }
+
+    .myContainer {
+        background-color: #4ABDAC;
+        border-radius: 25px;
+        font-size: 2.5em;
+        color: white;
+        height: 250px;
+    }
+</style>
+<script>$.getJSON('https://fillagain.azurewebsites.net/api/cups/5', function (data) {
+        //data is the JSON string
+        console.log(data);
+    });</script>
