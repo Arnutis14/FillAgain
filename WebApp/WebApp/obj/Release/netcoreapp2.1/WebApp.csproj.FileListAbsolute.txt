@@ -42,7 +42,6 @@ C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.
 C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.csproj.CoreCompileInputs.cache
 C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.RazorAssemblyInfo.cache
 C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.RazorAssemblyInfo.cs
-C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\UserSecretsAssemblyInfo.cs
 C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.AssemblyInfoInputs.cache
 C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.AssemblyInfo.cs
 C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.TagHelpers.input.cache
@@ -97,3 +96,4 @@ C:\Users\bblan\OneDrive\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\net
 C:\Users\bblan\OneDrive\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.dll
 C:\Users\bblan\OneDrive\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.pdb
 C:\Users\bblan\OneDrive\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\WebApp.csproj.CopyComplete
+C:\Users\arnas\Documents\GitHub\FillAgain\WebApp\WebApp\obj\Release\netcoreapp2.1\UserSecretsAssemblyInfo.cs
