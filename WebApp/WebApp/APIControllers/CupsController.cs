@@ -12,8 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebApp.Data;
 using WebApp.Data.Entities;
-using RestSharp;
-using RestSharp.Authenticators;
 
 namespace WebApp.APIControllers
 {
@@ -83,20 +81,28 @@ namespace WebApp.APIControllers
             int newLimit = tmplimit - 10;
             if(tmplimit > 10)
             {
+
+
+                var request = (HttpWebRequest)WebRequest.Create("https://api.sandbox.mobilepay.dk/bindings-restapi/api/v1/payments/payout-bankaccount");
+
+                string stringData = "{\"merchantId\" : \"35ed5788-51e3-4fd8-b7a3-020a9f7c8533\",\r\n    \"merchantBinding\" : \"000\",\r\n    \"receiverRegNumber\" : \"3098\",\r\n    \"receiverAccountNumber\" : \"3100460793\",\r\n    \"amount\" : 10 }";
+                var data = Encoding.ASCII.GetBytes(stringData); // or UTF8
+                WebResponse webResponse = request.GetResponse();
+                request.Method = "POST";
+                request.Headers.Add("x-ibm-client-id", "1c0cd3ff-1143-476b-b136-efe9b1f5ecf3");
+                request.Headers.Add("x-ibm-client-secret", "L7yW0eV0eK5yX1nK4rO0lI8sX5aN2tL6aQ0sL7gM1xO6sW8kK1");
+                request.ContentType = "application/json"; //place MIME type here
+                request.ContentLength = data.Length;
+                Console.WriteLine(request);
+                
+                var newStream = request.GetRequestStream();
+                newStream.Write(data, 0, data.Length);
+                newStream.Close();
+                Console.WriteLine(newStream);
+
+
                 //call danske bank api
-                var client = new RestClient("https://api.sandbox.mobilepay.dk/bindings-restapi/api/v1/payments/payout-bankaccount");
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("Postman-Token", "d8183387-6050-45d4-a047-aee929de826a");
-                request.AddHeader("cache-control", "no-cache");
-                request.AddHeader("x-ibm-client-secret", "L7yW0eV0eK5yX1nK4rO0lI8sX5aN2tL6aQ0sL7gM1xO6sW8kK1");
-                request.AddHeader("x-ibm-client-id", "1c0cd3ff-1143-476b-b136-efe9b1f5ecf3");
-                request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("undefined", "{\n\t\"merchantId\" : \"35ed5788-51e3-4fd8-b7a3-020a9f7c8533\",\n\t\"merchantBinding\" : \"000\",\n\t\"receiverRegNumber\" : \"3098\",\n\t\"receiverAccountNumber\" : \"3100460793\",\n\t\"amount\" : 10\n}", ParameterType.RequestBody);
-                IRestResponse response = client.Execute(request);
-
-
-                //if danskeAPI went okay we subtract the limit
-                if (response.Equals(204))
+                if (webResponse.Equals(204))
                 {
                     cup.limit = newLimit.ToString();
                     _context.Entry(cup).State = EntityState.Modified;
@@ -131,10 +137,21 @@ namespace WebApp.APIControllers
             int tmpmoney = Int32.Parse(d.limit);
             int newlimit = tmpmoney + Int32.Parse(money);
             d.limit = newlimit.ToString();
+
+           // foreach (Cup c in _context.Cups.Where(r => r.Id == cup.Id))
+            //{
+        //     c.limit = newlimit.ToString();
+//            }
+
             
 
+           
             Console.WriteLine(d);
-       
+            // var cupas = _context.Cups.Where(s => s.Id == cup.Id).First();
+            //cupas.limit = newlimit.ToString();
+
+
+
             _context.Entry(d).State= EntityState.Modified;
             _context.SaveChanges();
 
