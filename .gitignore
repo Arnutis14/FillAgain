@@ -1,2 +1,4 @@
 
 *.lock
+WebApp/WebApp/obj/Release/netcoreapp2.1/WebApp.csproj.CoreCompileInputs.cache
+*.ide-wal
